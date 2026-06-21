@@ -1,4 +1,4 @@
 package fr.ekod.roombooking.service;
 
-public class FileService {
+public class RoomFileService {
 }

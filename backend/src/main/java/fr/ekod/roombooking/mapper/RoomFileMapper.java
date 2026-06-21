@@ -1,4 +1,4 @@
 package fr.ekod.roombooking.mapper;
 
-public interface FileMapper {
+public interface RoomFileMapper {
 }
