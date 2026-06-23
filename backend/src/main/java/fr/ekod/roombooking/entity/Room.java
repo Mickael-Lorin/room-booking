@@ -3,7 +3,9 @@ package fr.ekod.roombooking.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,8 +40,12 @@ public class Room {
     @Builder.Default
     private Boolean available = true;
 
-    @Column(name="image_url")
+    @Column(name = "image_url")
     private String imageUrl;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
