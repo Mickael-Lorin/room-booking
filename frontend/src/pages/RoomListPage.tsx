@@ -39,18 +39,17 @@ export function RoomListPage() {
 
   return (
     <Layout>
-      {/* Bannière immersive utilisant l'image fournie */}
       <div className="hero-banner">
-        <div className="hero-overlay">
-          <h1>Trouvez la salle idéale pour vos réunions</h1>
-          <p>Consultez l'offre de salles en temps réel et filtrez selon vos besoins et équipements.</p>
+        <div className="hero-banner__overlay">
+          <h1 className="hero-banner__title">Trouvez la salle idéale pour vos réunions</h1>
+          <p className="hero-banner__description">Consultez l'offre de salles en temps réel et filtrez selon vos besoins et équipements.</p>
         </div>
       </div>
 
-      <div className="list-layout">
-        <aside className="filter-sidebar">
-          <div className="sticky-filter-wrapper">
-            <h3 className="sidebar-title">Filtres de recherche</h3>
+      <div className="room-list-page">
+        <aside className="room-list-page__sidebar">
+          <div className="room-list-page__sticky-wrapper">
+            <h3 className="room-list-page__sidebar-title">Filtres de recherche</h3>
             <RoomFilters
               filters={filters}
               onChange={setFilters}
@@ -63,22 +62,22 @@ export function RoomListPage() {
           </div>
         </aside>
 
-        <section className="list-content">
+        <section className="room-list-page__content">
           {loading && (
             <div className="status-container">
-              <p className="status-message loading">Chargement des salles disponibles...</p>
+              <p className="status-message status-message--loading">Chargement des salles disponibles...</p>
             </div>
           )}
 
           {error && (
             <div className="status-container">
-              <p className="status-message error">{error}</p>
+              <p className="status-message status-message--error">{error}</p>
             </div>
           )}
 
           {!loading && !error && rooms.length === 0 && (
             <div className="status-container">
-              <p className="status-message empty">Aucune salle ne correspond à vos critères de recherche.</p>
+              <p className="status-message status-message--empty">Aucune salle ne correspond à vos critères de recherche.</p>
             </div>
           )}
 

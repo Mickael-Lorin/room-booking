@@ -1,5 +1,5 @@
 /* ==========================================================================
-   LAYOUT GÉNÉRAL & HEADER
+   1. LAYOUT GLOBAL & HEADER
    ========================================================================== */
 .app-layout {
   min-height: 100svh;
@@ -7,11 +7,13 @@
   flex-direction: column;
 }
 
+.app-main {
+  width: 100%;
+}
+
 .app-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 3rem;
+  flex-direction: column;
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   box-shadow: var(--shadow-sm);
@@ -20,144 +22,92 @@
   z-index: 10;
 }
 
-.brand {
+.app-header .infos-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background: var(--accent-hover);
+  width: 100%;
+}
+
+.app-header .infos-bar .links {
+  display: flex;
+  gap: 20px;
+}
+
+.app-header .infos-bar .links a,
+.app-header .infos-bar .links p {
+  color: var(--text-white);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .89px;
+  margin: 0;
+}
+
+.app-header .header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30px 0;
+}
+
+.app-header .header-nav img {
+  height: 50px;
+}
+
+.app-header .header-nav .brand {
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
   letter-spacing: -0.03em;
+}
+
+.app-header .header-nav nav {
+  display: flex;
+  gap: 10px;
+}
+
+.app-header .header-nav nav a {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.app-header nav a {
-  color: var(--text);
+  color: var(--text-black);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.app-header nav a:hover {
-  color: var(--accent);
-  background: var(--accent-bg);
-}
-
-.app-main {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* ==========================================================================
-   HERO BANNER (Utilisation de l'image fournie)
-   ========================================================================== */
-.hero-banner {
-  width: 100%;
-  background-image: url('./assets/banniere.png');
-  background-size: cover;
-  background-position: center;
-  overflow: hidden;
-}
-
-.hero-overlay {
-  padding: 80px 60px;
-  max-width: 700px;
-}
-
-.hero-overlay h1 {
-  color: #ffffff;
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  font-weight: 700;
-}
-
-.hero-overlay p {
-  color: #cbd5e1;
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-/* ==========================================================================
-   DISPOSITION : LISTE DES SALLES (Sidebar + Grille)
-   ========================================================================== */
-.list-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 3rem;
-  padding: 50px;
-  align-items: start;
-}
-
-.sidebar-title {
   font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--text);
-  margin-bottom: 1rem;
-}
-
-.sticky-filter-wrapper {
-  position: sticky;
-  top: 6rem;
-}
-
-.room-filters {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.75rem;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--bg);
-  box-shadow: var(--shadow-sm);
-}
-
-.filter-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.filter-field label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-h);
-}
-
-.filter-field input,
-.filter-field select {
-  padding: 0.65rem 0.8rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-subtle);
-  color: var(--text-h);
-  font: inherit;
-  font-size: 0.9rem;
   transition: all 0.2s ease;
+  border: 2px solid transparent;
 }
 
-.filter-field input:focus,
-.filter-field select:focus {
-  outline: none;
-  border-color: var(--accent);
+.app-header .header-nav nav a:hover {
+  color: var(--accent);
+}
+
+.app-header .header-nav nav .auth {
+  margin-left: 20px;
+  background: var(--accent);
+  color: var(--text-white);
+  padding: 0.5rem 1.8rem;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.app-header .header-nav nav .auth:hover {
+  color: var(--accent);
   background: var(--bg);
-  box-shadow: 0 0 0 3px #FF33331A;
+  border: 2px solid var(--accent);
 }
 
-.filter-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-/* Boutons & Actions */
+/* ==========================================================================
+   2. COMPOSANTS COMMUNS / BOUTONS / BADGES
+   ========================================================================== */
 .btn-primary,
-.btn-secondary,
-.room-link {
+.btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -197,15 +147,163 @@
   border-color: #cbd5e1;
 }
 
+.room-badge {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.room-badge--available {
+  background: var(--success-bg);
+  color: var(--success);
+  border: 1px solid var(--success-border);
+}
+
+.room-badge--unavailable {
+  background: var(--error-bg);
+  color: var(--error);
+  border: 1px solid var(--error-border);
+}
+
+/* UI States (Loading, Errors) */
+.status-container {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.status-message {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.status-message--error {
+  background: var(--error-bg);
+  color: var(--error);
+  border-color: var(--error-border);
+}
+
 /* ==========================================================================
-   GRILLE & CARTES DES SALLES
+   3. BLOC HERO BANNER
    ========================================================================== */
+.hero-banner {
+  width: 100%;
+  background-image: url('./assets/banniere.png');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.hero-banner__overlay {
+  padding: 80px 60px;
+  max-width: 700px;
+}
+
+.hero-banner__title {
+  color: #ffffff;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.hero-banner__description {
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   4. PAGE : LISTE DES SALLES (`RoomListPage`)
+   ========================================================================== */
+.room-list-page {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 3rem;
+  padding: 50px;
+  align-items: start;
+}
+
+.room-list-page__sidebar-title {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.room-list-page__sticky-wrapper {
+  position: sticky;
+  top: 6rem;
+}
+
 .room-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
   gap: 1.75rem;
 }
 
+/* ==========================================================================
+   5. COMPOSANT : FILTRES (`RoomFilters`)
+   ========================================================================== */
+.room-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.room-filters__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.room-filters__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.room-filters__input,
+.room-filters__select {
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  color: var(--text-h);
+  font: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.room-filters__input:focus,
+.room-filters__select:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px #FF33331A;
+}
+
+.room-filters__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   6. COMPOSANT : CARTE SALLE (`RoomCard`)
+   ========================================================================== */
 .room-card {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -222,7 +320,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-.room-card-header {
+.room-card__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -230,34 +328,13 @@
   margin-bottom: 1rem;
 }
 
-.room-card h2 {
+.room-card__title {
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.3;
 }
 
-/* Badges de Statut épurés */
-.room-badge {
-  padding: 0.35rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.room-badge.available {
-  background: var(--success-bg);
-  color: var(--success);
-  border: 1px solid var(--success-border);
-}
-
-.room-badge.unavailable {
-  background: var(--error-bg);
-  color: var(--error);
-  border: 1px solid var(--error-border);
-}
-
-.room-description {
+.room-card__description {
   font-size: 0.9rem;
   color: var(--text);
   line-height: 1.5;
@@ -268,14 +345,14 @@
   overflow: hidden;
 }
 
-.room-meta {
+.room-card__meta-list {
   margin: auto 0 1.5rem 0;
   padding: 0;
   list-style: none;
   font-size: 0.9rem;
 }
 
-.room-meta li {
+.room-card__meta-item {
   display: flex;
   gap: 10px;
   width: 100%;
@@ -284,36 +361,58 @@
   border-bottom: 1px solid var(--bg-subtle);
 }
 
-.room-informations-title {
+.room-card__meta-label {
   width: 50%;
   color: var(--text);
   font-weight: 500;
 }
 
-.room-informations {
+.room-card__meta-value {
   width: 50%;
 }
 
-.room-link {
+.room-card__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
   border: 1px solid var(--border);
   background: var(--bg-subtle);
   color: var(--text-h);
 }
 
-.room-link:hover {
+.room-card__link:hover {
   background: var(--accent);
   color: white;
   border-color: var(--accent);
 }
 
 /* ==========================================================================
-   DISPOSITION : PAGE DÉTAIL (2 Colonnes Propres)
+   7. PAGE : DÉTAIL D'UNE SALLE (`RoomDetailPage`)
    ========================================================================== */
-.detail-container {
-    padding: 50px;
+.room-detail-container {
+  padding: 50px;
 }
 
-.back-link {
+.room-detail {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.room-detail__header {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.room-detail__back-link {
   display: inline-flex;
   align-items: center;
   margin-right: 10px;
@@ -323,22 +422,15 @@
   transition: color 0.2s ease;
 }
 
-.back-link:hover {
+.room-detail__back-link:hover {
   color: var(--accent);
 }
 
-.detail-layout {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 3.5rem;
-  align-items: start;
-}
-
-.room-detail-main h2 {
+.room-detail__title {
   font-size: 2.25rem;
 }
 
-.room-detail-main .room-description {
+.room-detail__description {
   font-size: 1.05rem;
   line-height: 1.6;
   color: var(--text);
@@ -347,17 +439,12 @@
   overflow: visible;
 }
 
-.room-detail-main .room-description.no-desc {
+.room-detail__description--empty {
   font-style: italic;
   color: #94a3b8;
 }
 
-.room-detail-title {
-    display: flex;
-    margin-bottom: 2rem;
-}
-
-.section-subtitle {
+.room-detail__section-subtitle {
   font-size: 1.1rem;
   margin-bottom: 1rem;
   text-transform: uppercase;
@@ -365,14 +452,14 @@
   color: var(--text);
 }
 
-.room-detail-list {
+.room-detail__specs-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin: 0;
 }
 
-.room-detail-list div {
+.room-detail__spec-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -382,26 +469,26 @@
   border: 1px solid var(--border);
 }
 
-.room-detail-list dt {
+.room-detail__spec-term {
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--text);
 }
 
-.room-detail-list dd {
+.room-detail__spec-desc {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 400;
   color: var(--text-h);
 }
 
-/* Panneau latéral collant (Sticky Sidebar) */
-.room-detail-sidebar {
+.room-detail__sidebar {
   position: sticky;
   top: 6rem;
 }
 
-.sticky-panel {
+/* Carte latérale de réservation */
+.room-booking-card {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
@@ -412,23 +499,23 @@
   gap: 1.5rem;
 }
 
-.sticky-panel h3 {
+.room-booking-card__title {
   font-size: 1.1rem;
 }
 
-.sticky-panel .room-badge {
+.room-booking-card .room-badge {
   font-size: 0.85rem;
   padding: 0.6rem;
   text-align: center;
 }
 
-.panel-info-rows {
+.room-booking-card__summary {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.panel-row {
+.room-booking-card__row {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -436,41 +523,49 @@
   font-size: 0.9rem;
 }
 
-.panel-row span:first-child {
+.room-booking-card__row span:first-child {
   width: 50%;
   color: var(--text);
 }
 
-.panel-row span:last-child {
+.room-booking-card__row span:last-child {
   width: 50%;
   font-weight: 600;
   color: var(--text-h);
 }
 
-/* Messages d'états */
-.status-container {
-  padding: 3rem 0;
-  text-align: center;
+/* ==========================================================================
+   8. CORRECTIONS ÉLÉMENTS FORMULAIRES NATIFS (SELECT)
+   ========================================================================== */
+select,
+select::picker(select) {
+  appearance: base-select;
 }
 
-.status-message {
-  display: inline-block;
-  padding: 1rem 2rem;
-  border-radius: 10px;
-  font-weight: 500;
-  background: var(--bg);
+select::picker-icon {
+  content: "▾";
+}
+
+select::picker(select) {
+  margin-top: 5px;
+  margin-bottom: 5px;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  border-radius: 5px;
+  padding: 8px;
 }
 
-.status-message.error {
-  background: var(--error-bg);
-  color: var(--error);
-  border-color: var(--error-border);
+select option {
+  padding: 8px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+option::checkmark {
+  display: none;
 }
 
 /* ==========================================================================
-   RESPONSIVE (Mobile & Tablette)
+   9. RESPONSIVE DESIGN
    ========================================================================== */
 @media (max-width: 960px) {
   .app-header {
@@ -481,16 +576,16 @@
     padding: 1.5rem 1.5rem 3rem;
   }
 
-  .hero-overlay {
+  .hero-banner__overlay {
     padding: 2.5rem 2rem;
   }
 
-  .hero-overlay h1 {
+  .hero-banner__title {
     font-size: 1.8rem;
   }
 
-  .list-layout,
-  .detail-layout {
+  .room-list-page,
+  .room-detail {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
@@ -500,16 +595,16 @@
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   }
 
-  .filter-actions {
+  .room-filters__actions {
     grid-column: 1 / -1;
     flex-direction: row;
   }
 
-  .filter-actions button {
+  .room-filters__actions button {
     flex: 1;
   }
 
-  .room-detail-sidebar {
+  .room-detail__sidebar {
     position: static;
   }
 }

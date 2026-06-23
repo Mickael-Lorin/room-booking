@@ -4,6 +4,8 @@
   /* Palette de couleurs inspirée de la bannière (Bleu Corporate & Moderne) */
   --text: #475569;
   --text-h: #0f172a;
+  --text-white: #ffffff;
+  --text-black: #000000;
   --bg: #ffffff;
   --bg-subtle: #f8fafc;
   --border: #e2e8f0;
