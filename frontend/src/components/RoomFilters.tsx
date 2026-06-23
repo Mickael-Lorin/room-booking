@@ -16,10 +16,11 @@ export function RoomFilters({ filters, onChange, onSearch, onReset }: RoomFilter
         onSearch()
       }}
     >
-      <div className="filter-field">
-        <label htmlFor="minCapacity">Capacité minimale</label>
+      <div className="room-filters__field">
+        <label className="room-filters__label" htmlFor="minCapacity">Capacité minimale</label>
         <input
           id="minCapacity"
+          className="room-filters__input"
           type="number"
           min={1}
           placeholder="Ex : 10"
@@ -33,10 +34,11 @@ export function RoomFilters({ filters, onChange, onSearch, onReset }: RoomFilter
         />
       </div>
 
-      <div className="filter-field">
-        <label htmlFor="equipment">Équipement</label>
+      <div className="room-filters__field">
+        <label className="room-filters__label" htmlFor="equipment">Équipement</label>
         <input
           id="equipment"
+          className="room-filters__input"
           type="text"
           placeholder="Ex : Projecteur"
           value={filters.equipment ?? ''}
@@ -44,10 +46,11 @@ export function RoomFilters({ filters, onChange, onSearch, onReset }: RoomFilter
         />
       </div>
 
-      <div className="filter-field">
-        <label htmlFor="location">Localisation</label>
+      <div className="room-filters__field">
+        <label className="room-filters__label" htmlFor="location">Localisation</label>
         <input
           id="location"
+          className="room-filters__input"
           type="text"
           placeholder="Ex : Bâtiment A"
           value={filters.location ?? ''}
@@ -55,10 +58,11 @@ export function RoomFilters({ filters, onChange, onSearch, onReset }: RoomFilter
         />
       </div>
 
-      <div className="filter-field">
-        <label htmlFor="available">Disponibilité</label>
+      <div className="room-filters__field">
+        <label className="room-filters__label" htmlFor="available">Disponibilité</label>
         <select
           id="available"
+          className="room-filters__select"
           value={filters.available === undefined ? '' : String(filters.available)}
           onChange={(event) => {
             const value = event.target.value
@@ -74,7 +78,7 @@ export function RoomFilters({ filters, onChange, onSearch, onReset }: RoomFilter
         </select>
       </div>
 
-      <div className="filter-actions">
+      <div className="room-filters__actions">
         <button type="submit" className="btn-primary">
           Rechercher
         </button>

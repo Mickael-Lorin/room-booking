@@ -26,7 +26,7 @@ export const Login: React.FC = () => {
             <h2>Connexion</h2>
             {error && <p className="error">{error}</p>}
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" placeholder="" value={password} onChange={(e) => setPassword(e.target.value)} required/>
             <button type="submit">Se connecter</button>
         </form>
     )

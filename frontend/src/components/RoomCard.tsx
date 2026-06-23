@@ -8,30 +8,33 @@ interface RoomCardProps {
 export function RoomCard({ room }: RoomCardProps) {
   return (
     <article className="room-card">
-      <div className="room-card-header">
-        <h2>{room.name}</h2>
-        <span className={`room-badge ${room.available ? 'available' : 'unavailable'}`}>
+      <div className="room-card__header">
+        <h2 className="room-card__title">{room.name}</h2>
+        <span className={`room-badge ${room.available ? 'room-badge--available' : 'room-badge--unavailable'}`}>
           {room.available ? 'Disponible' : 'Indisponible'}
         </span>
       </div>
 
-      {room.description && <p className="room-description">{room.description}</p>}
+      {room.description && <p className="room-card__description">{room.description}</p>}
 
-      <ul className="room-meta">
-        <li>
-          <div className="room-informations-title">Capacité :</div> <div className="room-informations">{room.capacity} personnes</div>
+      <ul className="room-card__meta-list">
+        <li className="room-card__meta-item">
+          <div className="room-card__meta-label">Capacité :</div>
+          <div className="room-card__meta-value">{room.capacity} personnes</div>
         </li>
-        <li>
-          <div className="room-informations-title">Localisation :</div> <div className="room-informations">{room.location}</div>
+        <li className="room-card__meta-item">
+          <div className="room-card__meta-label">Localisation :</div>
+          <div className="room-card__meta-value">{room.location}</div>
         </li>
         {room.equipment && (
-          <li>
-            <div className="room-informations-title">Équipements :</div> <div className="room-informations">{room.equipment}</div>
+          <li className="room-card__meta-item">
+            <div className="room-card__meta-label">Équipements :</div>
+            <div className="room-card__meta-value">{room.equipment}</div>
           </li>
         )}
       </ul>
 
-      <Link to={`/rooms/${room.id}`} className="room-link">
+      <Link to={`/rooms/${room.id}`} className="room-card__link">
         Voir le détail
       </Link>
     </article>

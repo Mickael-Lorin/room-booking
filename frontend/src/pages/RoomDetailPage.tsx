@@ -30,59 +30,58 @@ export function RoomDetailPage() {
 
   return (
     <Layout>
-      <div className="detail-container">
-        {loading && <p className="status-message loading">Chargement des détails...</p>}
-        {error && <p className="status-message error">{error}</p>}
+      <div className="room-detail-container">
+        {loading && <p className="status-message status-message--loading">Chargement des détails...</p>}
+        {error && <p className="status-message status-message--error">{error}</p>}
 
         {room && (
-          <div className="detail-layout">
+          <div className="room-detail">
             {/* Colonne Gauche : Infos principales */}
-            <article className="room-detail-main">
-              <div className="room-detail-title">
-                <Link to="/rooms" className="back-link">
+            <article className="room-detail__main">
+              <div className="room-detail__header">
+                <Link to="/rooms" className="room-detail__back-link">
                   <IoIosBackspace />
                 </Link>
-
-                <h2>{room.name}</h2>
+                <h2 className="room-detail__title">{room.name}</h2>
               </div>
 
               {room.description ? (
-                <p className="room-description">{room.description}</p>
+                <p className="room-detail__description">{room.description}</p>
               ) : (
-                <p className="room-description no-desc">Aucune description disponible pour cette salle.</p>
+                <p className="room-detail__description room-detail__description--empty">Aucune description disponible pour cette salle.</p>
               )}
 
-              <h3 className="section-subtitle">Caractéristiques générales</h3>
-              <dl className="room-detail-list">
-                <div>
-                  <dt>Capacité maximale</dt>
-                  <dd>{room.capacity} personnes</dd>
+              <h3 className="room-detail__section-subtitle">Caractéristiques générales</h3>
+              <dl className="room-detail__specs-list">
+                <div className="room-detail__spec-item">
+                  <dt className="room-detail__spec-term">Capacité maximale</dt>
+                  <dd className="room-detail__spec-desc">{room.capacity} personnes</dd>
                 </div>
-                <div>
-                  <dt>Localisation</dt>
-                  <dd>{room.location}</dd>
+                <div className="room-detail__spec-item">
+                  <dt className="room-detail__spec-term">Localisation</dt>
+                  <dd className="room-detail__spec-desc">{room.location}</dd>
                 </div>
-                <div>
-                  <dt>Équipements inclus</dt>
-                  <dd>{room.equipment ?? 'Aucun équipement spécifique renseigné'}</dd>
+                <div className="room-detail__spec-item">
+                  <dt className="room-detail__spec-term">Équipements inclus</dt>
+                  <dd className="room-detail__spec-desc">{room.equipment ?? 'Aucun équipement spécifique renseigné'}</dd>
                 </div>
               </dl>
             </article>
 
             {/* Colonne Droite : Sticky Panel d'état / Action */}
-            <aside className="room-detail-sidebar">
-              <div className="sticky-panel">
-                <h3>Statut de la salle</h3>
-                <span className={`room-badge ${room.available ? 'available' : 'unavailable'}`}>
+            <aside className="room-detail__sidebar">
+              <div className="room-booking-card">
+                <h3 className="room-booking-card__title">Statut de la salle</h3>
+                <span className={`room-badge ${room.available ? 'room-badge--available' : 'room-badge--unavailable'}`}>
                   {room.available ? '● Disponible immédiatement' : '● Occupée / Indisponible'}
                 </span>
 
-                <div className="panel-info-rows">
-                  <div className="panel-row">
+                <div className="room-booking-card__summary">
+                  <div className="room-booking-card__row">
                     <span>Emplacement</span>
                     <span>{room.location}</span>
                   </div>
-                  <div className="panel-row">
+                  <div className="room-booking-card__row">
                     <span>Places</span>
                     <span>{room.capacity} pers.</span>
                   </div>
