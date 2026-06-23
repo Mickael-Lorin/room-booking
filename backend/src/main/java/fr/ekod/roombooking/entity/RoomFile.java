@@ -36,7 +36,7 @@ public class RoomFile {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "room", nullable = false)
     private Room room;
 
 }
