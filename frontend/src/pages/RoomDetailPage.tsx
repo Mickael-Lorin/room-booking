@@ -1,15 +1,23 @@
 import { Layout } from '../components/Layout'
-import { fetchRoomById } from '../api/rooms'
+import { RoomFormModal } from '../components/RoomFormModal'
+import { deleteRoom, fetchRoomById, patchRoomName, updateRoom } from '../api/rooms'
 import type { Room } from '../types/room'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import { IoIosBackspace } from "react-icons/io";
+
+type ModalState =
+  | { type: 'edit'; room: Room }
+  | { type: 'rename'; room: Room }
+  | null
 
 export function RoomDetailPage() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const [room, setRoom] = useState<Room | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [modal, setModal] = useState<ModalState>(null)
 
   useEffect(() => {
     const roomId = Number(id)
@@ -27,6 +35,21 @@ export function RoomDetailPage() {
       })
       .finally(() => setLoading(false))
   }, [id])
+
+  const handleDelete = async (currentRoom: Room) => {
+    const confirmed = window.confirm(`Supprimer la salle « ${currentRoom.name} » ?`)
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      await deleteRoom(currentRoom.id)
+      // Redirection vers la liste des salles après suppression
+      navigate('/rooms')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Impossible de supprimer la salle')
+    }
+  }
 
   return (
     <Layout>
@@ -66,6 +89,19 @@ export function RoomDetailPage() {
                   <dd className="room-detail__spec-desc">{room.equipment ?? 'Aucun équipement spécifique renseigné'}</dd>
                 </div>
               </dl>
+
+              {/* Bloc d'actions pour Modifier / Supprimer */}
+              <div className="room-card__actions" style={{ marginTop: '2rem', paddingTop: '1.5rem' }}>
+                <button type="button" className="btn-secondary" onClick={() => setModal({ type: 'rename', room })}>
+                  Modifier le nom
+                </button>
+                <button type="button" className="btn-secondary" onClick={() => setModal({ type: 'edit', room })}>
+                  Modifier toutes les informations
+                </button>
+                <button type="button" className="btn-danger" onClick={() => void handleDelete(room)}>
+                  Supprimer
+                </button>
+              </div>
             </article>
 
             {/* Colonne Droite : Sticky Panel d'état / Action */}
@@ -99,6 +135,31 @@ export function RoomDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Gestion des Modales de modification */}
+      {modal?.type === 'edit' && (
+        <RoomFormModal
+          mode="edit"
+          room={modal.room}
+          onClose={() => setModal(null)}
+          onSubmit={async (payload) => {
+            const updated = await updateRoom(modal.room.id, payload)
+            setRoom(updated)
+          }}
+        />
+      )}
+
+      {modal?.type === 'rename' && (
+        <RoomFormModal
+          mode="rename"
+          room={modal.room}
+          onClose={() => setModal(null)}
+          onSubmit={async (name) => {
+            const updated = await patchRoomName(modal.room.id, { name })
+            setRoom(updated)
+          }}
+        />
+      )}
     </Layout>
   )
 }

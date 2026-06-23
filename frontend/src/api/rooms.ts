@@ -1,4 +1,4 @@
-import type { Room, RoomSearchParams } from '../types/room'
+import type { CreateRoomPayload, PatchRoomNamePayload, Room, RoomSearchParams, UpdateRoomPayload } from '../types/room'
 
 const API_BASE = '/api/rooms'
 
@@ -7,6 +7,11 @@ async function handleResponse<T>(response: Response): Promise<T> {
     const error = await response.json().catch(() => ({ message: 'Une erreur est survenue' }))
     throw new Error(error.message ?? 'Une erreur est survenue')
   }
+
+  if (response.status === 204) {
+    return undefined as T
+  }
+
   return response.json()
 }
 
@@ -40,4 +45,36 @@ export async function searchRooms(params: RoomSearchParams): Promise<Room[]> {
   const url = query ? `${API_BASE}/search?${query}` : API_BASE
   const response = await fetch(url)
   return handleResponse<Room[]>(response)
+}
+
+export async function createRoom(payload: CreateRoomPayload): Promise<Room> {
+  const response = await fetch(API_BASE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return handleResponse<Room>(response)
+}
+
+export async function updateRoom(id: number, payload: UpdateRoomPayload): Promise<Room> {
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return handleResponse<Room>(response)
+}
+
+export async function patchRoomName(id: number, payload: PatchRoomNamePayload): Promise<Room> {
+  const response = await fetch(`${API_BASE}/${id}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+  return handleResponse<Room>(response)
+}
+
+export async function deleteRoom(id: number): Promise<void> {
+  const response = await fetch(`${API_BASE}/${id}`, { method: 'DELETE' })
+  await handleResponse<void>(response)
 }
