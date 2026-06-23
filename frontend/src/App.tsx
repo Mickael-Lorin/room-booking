@@ -15,12 +15,12 @@ function App() {
                 {/* Routes Publiques */}
                 <Route path="/" element={<Navigate to="/rooms" replace />} />
                 <Route path="/rooms" element={<RoomListPage />} />
-
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
                 {/* Routes Protégées */}
                 <Route element={<ProtectedRoute />}>
+                    {/* Juste pour que la fonctionnalité fonctionne a remettre dans la partie publique*/}
                     <Route path="/rooms/:id" element={<RoomDetailPage />} />
                 </Route>
             </Routes>
