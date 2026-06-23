@@ -25,5 +25,7 @@ services:
     build: ./frontend
     depends_on:
       - backend
+    environment:
+      API_PROXY_TARGET: http://backend:8080
     ports:
       - "5175:5173"
