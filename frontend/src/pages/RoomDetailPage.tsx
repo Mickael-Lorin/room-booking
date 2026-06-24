@@ -123,13 +123,19 @@ export function RoomDetailPage() {
                   </div>
                 </div>
 
-                <button
-                  className="btn-primary"
-                  disabled={!room.available}
-                  style={{ width: '100%', marginTop: '0.5rem' }}
-                >
-                  {room.available ? 'Réserver cette salle' : 'Indisponible'}
-                </button>
+                {room.available ? (
+                  <Link to={`/rooms/${room.id}/book`} className="btn-primary" style={{ width: '100%', marginTop: '0.5rem', textAlign: 'center', display: 'block' }}>
+                    Réserver cette salle
+                  </Link>
+                ) : (
+                  <button
+                    className="btn-primary"
+                    disabled
+                    style={{ width: '100%', marginTop: '0.5rem' }}
+                  >
+                    Indisponible
+                  </button>
+                )}
               </div>
             </aside>
           </div>

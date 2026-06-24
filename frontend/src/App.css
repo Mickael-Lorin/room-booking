@@ -103,6 +103,23 @@
   border: 2px solid var(--accent);
 }
 
+.nav-logout {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-black);
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.nav-logout:hover {
+  color: var(--accent);
+}
+
 /* ==========================================================================
    2. COMPOSANTS COMMUNS / BOUTONS / BADGES
    ========================================================================== */
@@ -213,6 +230,16 @@
   border-color: var(--error-border);
 }
 
+.status-message--success {
+  background: var(--success-bg);
+  color: var(--success);
+  border-color: var(--success-border);
+}
+
+.status-message--loading {
+  color: var(--text);
+}
+
 /* ==========================================================================
    3. BLOC HERO BANNER
    ========================================================================== */
@@ -268,7 +295,7 @@
 
 .room-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 1.75rem;
 }
 
@@ -714,4 +741,189 @@ option::checkmark {
   .room-detail__sidebar {
     position: static;
   }
+
+  .booking-page__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reservations-table-wrapper {
+    overflow-x: auto;
+  }
+}
+
+/* ==========================================================================
+   10. RÉSERVATIONS
+   ========================================================================== */
+.booking-page,
+.reservations-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.booking-page__header,
+.reservations-page__header {
+  margin-bottom: 2rem;
+}
+
+.booking-page__back {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.booking-page__subtitle {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.booking-page__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.booking-form,
+.booking-sidebar {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.booking-form h2,
+.booking-sidebar h2 {
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+}
+
+.booking-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.booking-form__field span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.booking-form__field input,
+.booking-form__field textarea {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font: inherit;
+}
+
+.booking-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.booking-form__hint {
+  margin-top: 0.75rem;
+  color: var(--error);
+  font-size: 0.9rem;
+}
+
+.booking-sidebar__empty {
+  color: var(--text);
+}
+
+.booking-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.booking-sidebar__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem;
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.reservations-page__empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.reservations-table-wrapper {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reservations-table th,
+.reservations-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.reservations-table th {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  background: var(--bg-subtle);
+}
+
+.reservations-table a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.reservations-table__muted {
+  color: #94a3b8;
+}
+
+.reservation-status {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.reservation-status--pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.reservation-status--confirmed {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.reservation-status--cancelled {
+  background: var(--error-bg);
+  color: var(--error);
 }

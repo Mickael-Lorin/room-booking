@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, ReactNode } from 'react';
+import { createContext, useState, useContext, type ReactNode } from 'react';
 
 export interface AuthContextType {
     token: string | null;
@@ -10,9 +10,9 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    // Correction : Initialisation correcte du state (pas de parenthèse en trop)
-    const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem('accessToken'));
+    const storedToken = localStorage.getItem('accessToken');
+    const [token, setToken] = useState<string | null>(storedToken);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(Boolean(storedToken?.trim()));
 
     const login = (accessToken: string) => {
         localStorage.setItem('accessToken', accessToken);

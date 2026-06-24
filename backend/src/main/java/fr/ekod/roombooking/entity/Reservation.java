@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column (nullable = false)
     private LocalDateTime startDateTime;
@@ -32,6 +32,9 @@ public class Reservation {
 
     @Column(columnDefinition = "TEXT")
     private String purpose;
+
+    @Column(nullable = false)
+    private Integer attendeesCount;
 
     @CreationTimestamp
     @Column(updatable = false)
