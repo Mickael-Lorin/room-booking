@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
+import { useAuth } from '../context/AuthContext'
 import Ekod from '../assets/ekod.svg'
 
 interface LayoutProps {
@@ -7,6 +8,8 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { isAuthenticated, logout } = useAuth()
+
   return (
     <div className="app-layout">
       <header className="app-header">
@@ -23,12 +26,21 @@ export function Layout({ children }: LayoutProps) {
 
         <div className="header-nav">
           <Link to="/rooms" className="brand">
-            <img src={ Ekod } />
+            <img src={Ekod} alt="Ekod" />
           </Link>
           <nav>
             <Link to="/">Accueil</Link>
             <Link to="/rooms">Salles</Link>
-            <Link className="auth" to="/login">S'authentifier</Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/me/reservations">Mes réservations</Link>
+                <button type="button" className="nav-logout" onClick={logout}>
+                  Déconnexion
+                </button>
+              </>
+            ) : (
+              <Link className="auth" to="/login">S&apos;authentifier</Link>
+            )}
           </nav>
         </div>
       </header>

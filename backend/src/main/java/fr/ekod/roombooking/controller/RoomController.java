@@ -1,9 +1,11 @@
 package fr.ekod.roombooking.controller;
 
+import fr.ekod.roombooking.dto.reservation.ReservationDTO;
 import fr.ekod.roombooking.dto.room.CreateRoomRequest;
 import fr.ekod.roombooking.dto.room.PatchRoomNameRequest;
 import fr.ekod.roombooking.dto.room.RoomDTO;
 import fr.ekod.roombooking.dto.room.UpdateRoomRequest;
+import fr.ekod.roombooking.service.ReservationService;
 import fr.ekod.roombooking.service.RoomService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,7 @@ import java.util.List;
 public class RoomController {
 
     private final RoomService roomService;
+    private final ReservationService reservationService;
 
     @GetMapping
     public List<RoomDTO> getAllRooms() {
@@ -47,6 +50,11 @@ public class RoomController {
     @GetMapping("/{id}")
     public RoomDTO getRoomById(@PathVariable Long id) {
         return roomService.findById(id);
+    }
+
+    @GetMapping("/{id}/reservations")
+    public List<ReservationDTO> getRoomReservations(@PathVariable Long id) {
+        return reservationService.findByRoomId(id);
     }
 
     @PostMapping

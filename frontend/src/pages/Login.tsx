@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { loginService } from '../services/AuthService';
 
@@ -8,17 +8,20 @@ export const Login: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const location = useLocation();
     const { login } = useAuth();
+
+    const redirectTo = (location.state as { from?: string } | null)?.from ?? '/rooms';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
-        try{
+        try {
             const data = await loginService({ email, password });
             login(data.accessToken);
-            navigate('/rooms');
-        }catch(err : any){
-            setError(err.message || 'Une erreur est survenue');
+            navigate(redirectTo);
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : 'Une erreur est survenue');
         }
     };
     return(
