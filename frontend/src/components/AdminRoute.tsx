@@ -1,9 +1,21 @@
-import { Navigate } from 'react-router-dom';
-import { authUtils } from '../services/AuthService'
+import { Navigate, Outlet } from 'react-router-dom'
 
-const AdminRoute = ({ children }: { children: JSX.Element }) => {
-    if (!authUtils.isAuthenticated() || !authUtils.isAdmin()) {
-        return <Navigate to="/login" replace />;
+function isAuthenticated(): boolean {
+    return !!localStorage.getItem('accessToken')
+}
+
+function isAdmin(): boolean {
+    return localStorage.getItem('USER_ROLE') === 'ROLE_ADMIN'
+}
+
+export function AdminRoute() {
+    if (!isAuthenticated()) {
+        return <Navigate to="/login" replace />
     }
-    return children;
-};
+
+    if (!isAdmin()) {
+        return <Navigate to="/" replace />
+    }
+
+    return <Outlet />
+}

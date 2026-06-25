@@ -2,7 +2,8 @@ import { Layout } from '../components/Layout'
 import { RoomCard } from '../components/RoomCard'
 import { RoomFilters } from '../components/RoomFilters'
 import { RoomFormModal } from '../components/RoomFormModal'
-import { createRoom, fetchRooms, searchRooms } from '../api/rooms'
+import { fetchRooms, searchRooms } from '../api/rooms'
+import { adminRoomService } from '../services/AdminRoomService'
 import type { Room, RoomSearchParams } from '../types/room'
 import { useCallback, useEffect, useState } from 'react'
 import '../styles/RoomListPage.css'
@@ -114,7 +115,7 @@ export function RoomListPage() {
           mode="create"
           onClose={() => setModal(null)}
           onSubmit={async (payload) => {
-            const created = await createRoom(payload)
+            const created = await adminRoomService.createRoom(payload)
             setRooms((current) => [...current, created])
           }}
         />

@@ -1,17 +1,32 @@
+export const API_BASE_URL = '/api'
+export const ACCESS_TOKEN_KEY = 'accessToken'
+export const USER_ROLE_KEY = 'USER_ROLE'
+
 export class ApiError extends Error {
-  status: number
   constructor(
-    message: string,
-    status: number
+      message: string,
+      public readonly status: number
   ) {
     super(message)
-    this.status = status
     this.name = 'ApiError'
   }
 }
 
+export function getAccessToken(): string | null {
+  return localStorage.getItem(ACCESS_TOKEN_KEY)
+}
+
+export function setAccessToken(token: string): void {
+  localStorage.setItem(ACCESS_TOKEN_KEY, token)
+}
+
+export function clearAuthStorage(): void {
+  localStorage.removeItem(ACCESS_TOKEN_KEY)
+  localStorage.removeItem(USER_ROLE_KEY)
+}
+
 export function authHeaders(includeJson = true): HeadersInit {
-  const token = localStorage.getItem('accessToken')
+  const token = getAccessToken()
   const headers: Record<string, string> = {}
 
   if (includeJson) {
@@ -25,15 +40,22 @@ export function authHeaders(includeJson = true): HeadersInit {
   return headers
 }
 
+async function getErrorMessage(response: Response): Promise<string> {
+  try {
+    const error = await response.json()
+    return error.message ?? 'Une erreur est survenue'
+  } catch {
+    return 'Une erreur est survenue'
+  }
+}
+
 export async function handleResponse<T>(response: Response): Promise<T> {
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Une erreur est survenue' }))
-
     if (response.status === 401 || response.status === 403) {
-      localStorage.removeItem('accessToken')
+      clearAuthStorage()
     }
 
-    throw new ApiError(error.message ?? 'Une erreur est survenue', response.status)
+    throw new ApiError(await getErrorMessage(response), response.status)
   }
 
   if (response.status === 204) {
@@ -41,4 +63,36 @@ export async function handleResponse<T>(response: Response): Promise<T> {
   }
 
   return response.json()
+}
+
+type ApiRequestOptions = Omit<RequestInit, 'body'> & {
+  body?: unknown
+  authenticated?: boolean
+}
+
+export async function apiRequest<T>(
+    endpoint: string,
+    options: ApiRequestOptions = {}
+): Promise<T> {
+  const {
+    body,
+    authenticated = false,
+    headers,
+    ...requestOptions
+  } = options
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...requestOptions,
+    headers: {
+      ...(authenticated
+          ? authHeaders(body !== undefined)
+          : body !== undefined
+              ? { 'Content-Type': 'application/json' }
+              : {}),
+      ...headers,
+    },
+    body: body !== undefined ? JSON.stringify(body) : undefined,
+  })
+
+  return handleResponse<T>(response)
 }

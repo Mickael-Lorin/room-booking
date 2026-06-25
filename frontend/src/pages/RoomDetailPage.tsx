@@ -1,6 +1,7 @@
 import { Layout } from '../components/Layout'
 import { RoomFormModal } from '../components/RoomFormModal'
-import { deleteRoom, fetchRoomById, patchRoomName, updateRoom } from '../api/rooms'
+import { fetchRoomById } from '../api/rooms'
+import { adminRoomService } from '../services/AdminRoomService'
 import type { Room } from '../types/room'
 import { useEffect, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
@@ -44,7 +45,7 @@ export function RoomDetailPage() {
     }
 
     try {
-      await deleteRoom(currentRoom.id)
+      await adminRoomService.deleteRoom(currentRoom.id)
       navigate('/rooms')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Impossible de supprimer la salle')
@@ -131,27 +132,27 @@ export function RoomDetailPage() {
 
       {/* Gestion des Modales (inchangée) */}
       {modal?.type === 'edit' && (
-        <RoomFormModal
-          mode="edit"
-          room={modal.room}
-          onClose={() => setModal(null)}
-          onSubmit={async (payload) => {
-            const updated = await updateRoom(modal.room.id, payload)
-            setRoom(updated)
-          }}
-        />
+          <RoomFormModal
+              mode="edit"
+              room={modal.room}
+              onClose={() => setModal(null)}
+              onSubmit={async (payload) => {
+                const updated = await adminRoomService.updateRoom(modal.room.id, payload)
+                setRoom(updated)
+              }}
+          />
       )}
 
       {modal?.type === 'rename' && (
-        <RoomFormModal
-          mode="rename"
-          room={modal.room}
-          onClose={() => setModal(null)}
-          onSubmit={async (name) => {
-            const updated = await patchRoomName(modal.room.id, { name })
-            setRoom(updated)
-          }}
-        />
+          <RoomFormModal
+              mode="rename"
+              room={modal.room}
+              onClose={() => setModal(null)}
+              onSubmit={async (name) => {
+                const updated = await adminRoomService.patchRoomName(modal.room.id, { name })
+                setRoom(updated)
+              }}
+          />
       )}
     </Layout>
   )
