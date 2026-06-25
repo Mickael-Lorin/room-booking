@@ -1,3 +1,7 @@
+import { handleResponse } from '../api/http'
+
+const API_URL = '/api'
+
 export const getAuthHeaders = () => {
     const token = localStorage.getItem("accessToken");
     return {

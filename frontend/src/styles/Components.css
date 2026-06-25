@@ -1,0 +1,120 @@
+/* ==========================================================================
+   COMPOSANTS UI (Boutons, Badges, Modales, Statuts)
+   ========================================================================== */
+.btn-primary,
+.btn-secondary,
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  border: none;
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:disabled { background: #cbd5e1; color: #94a3b8; cursor: not-allowed; }
+
+.btn-secondary {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.btn-secondary:hover { background: var(--bg-subtle); border-color: #cbd5e1; }
+
+.btn-danger { border: none; background: #dc2626; color: white; }
+.btn-danger:hover { background: #b91c1c; }
+
+.btn-rename {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--text-h);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-rename:hover { background: var(--bg-subtle); border-color: #cbd5e1; }
+
+/* Badges */
+.room-badge {
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.room-badge--available { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+.room-badge--unavailable { background: var(--error-bg); color: var(--error); border: 1px solid var(--error-border); }
+
+/* UI States (Loading, Errors) */
+.status-container { padding: 3rem 0; text-align: center; }
+.status-message {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  font-weight: 500;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.status-message--error { background: var(--error-bg); color: var(--error); border-color: var(--error-border); }
+.status-message--success { background: var(--success-bg); color: var(--success); border-color: var(--success-border); }
+.status-message--loading { color: var(--text); }
+
+/* Modales */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 100;
+}
+.modal {
+  width: min(100%, 520px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.modal__title { font-size: 1.15rem; font-weight: 600; }
+.modal__close {
+  border: none;
+  background: transparent;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--text);
+  padding: 0.25rem 0.5rem;
+}
+.modal__form { display: flex; flex-direction: column; gap: 1rem; padding: 1.5rem; }
+.modal__actions { display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 0.5rem; }

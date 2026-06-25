@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import { useAuth } from '../context/AuthContext'
 import Ekod from '../assets/ekod.svg'
+import '../styles/Layout.css'
 
 interface LayoutProps {
   children: ReactNode

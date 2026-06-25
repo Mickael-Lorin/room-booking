@@ -3,12 +3,9 @@ import type { Room } from '../types/room'
 
 interface RoomCardProps {
   room: Room
-  onRename: (room: Room) => void
-  onEdit: (room: Room) => void
-  onDelete: (room: Room) => void
 }
 
-export function RoomCard({ room, onRename, onEdit, onDelete }: RoomCardProps) {
+export function RoomCard({ room }: RoomCardProps) {
   return (
     <article className="room-card">
       <div className="room-card__header">
@@ -40,18 +37,6 @@ export function RoomCard({ room, onRename, onEdit, onDelete }: RoomCardProps) {
       <Link to={`/rooms/${room.id}`} className="room-card__link">
         Voir le détail
       </Link>
-
-      <div className="room-card__actions">
-        <button type="button" className="btn-secondary btn-sm" onClick={() => onRename(room)}>
-          Renommer
-        </button>
-        <button type="button" className="btn-secondary btn-sm" onClick={() => onEdit(room)}>
-          Modifier
-        </button>
-        <button type="button" className="btn-danger btn-sm" onClick={() => onDelete(room)}>
-          Supprimer
-        </button>
-      </div>
     </article>
   )
 }
