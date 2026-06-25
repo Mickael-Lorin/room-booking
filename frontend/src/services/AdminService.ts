@@ -1,56 +1,45 @@
-export type Role = 'ROLE_ADMIN' | 'ROLE_USER';
+import { adminApi } from '../api/adminApi'
+import { authService } from './AuthService'
+import type { Role, User } from '../types/user'
 
-export interface User {
-    id: number;
-    email: string;
-    role: Role;
+function toBackendRole(role: Role | string): string {
+    return role.replace('ROLE_', '')
 }
 
-const API_URL = 'http://localhost:8085/api/admin';
-
-const getHeaders = (): HeadersInit => {
-    const token = localStorage.getItem('ACCESS_TOKEN');
-    return {
-        'Authorization': token ? `Bearer ${token}` : '',
-        'Content-Type': 'application/json'
-    };
-};
-
 export const adminService = {
-    getUsers: async (): Promise<User[]> => {
-        const response = await fetch(`${API_URL}/users`, { headers: getHeaders() });
-        if (!response.ok) throw new Error("Erreur lors de la récupération");
-        return response.json();
+    getUsers(): Promise<User[]> {
+        return adminApi.getUsers()
     },
 
-    getUserById: async (userId: number): Promise<User> => {
-        const response = await fetch(`${API_URL}/users/${userId}`, { headers: getHeaders() });
-        if (!response.ok) throw new Error("Utilisateur introuvable");
-        return response.json();
+    getUserById(userId: number): Promise<User> {
+        return adminApi.getUserById(userId)
     },
 
-    updateUserRole: async (userId: number, role: string): Promise<void> => {
-        // Nettoyage pour le backend (ADMIN au lieu de ROLE_ADMIN)
-        const cleanRole = role.replace('ROLE_', '');
+    updateUserRole(userId: number, role: Role | string): Promise<void> {
+        return adminApi.updateUserRole(userId, {
+            role: toBackendRole(role),
+        })
+    },
 
-        const response = await fetch(`${API_URL}/users/${userId}/role`, {
-            method: 'PATCH',
-            headers: getHeaders(),
-            body: JSON.stringify({ role: cleanRole })
-        });
+    updateUserStatus(userId: number, active: boolean): Promise<void> {
+        return adminApi.updateUserStatus(userId, {
+            active,
+        })
+    },
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Erreur serveur :", errorText);
-            throw new Error('Erreur lors de la mise à jour');
-        }
-    }
-};
+    deleteUser(userId: number): Promise<void> {
+        return adminApi.deleteUser(userId)
+    },
+}
 
 export const authUtils = {
-    isAdmin: () => {
-        const role = localStorage.getItem('USER_ROLE');
-        return role === 'ROLE_ADMIN';
+    isAdmin(): boolean {
+        return authService.isAdmin()
     },
-    isAuthenticated: () => !!localStorage.getItem('ACCESS_TOKEN')
-};
+
+    isAuthenticated(): boolean {
+        return authService.isAuthenticated()
+    },
+}
+
+export type { User, Role }

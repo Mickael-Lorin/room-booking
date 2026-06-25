@@ -1,7 +1,10 @@
+export type Role = 'ROLE_ADMIN' | 'ROLE_USER'
 
-export interface user {
-    id: number;
-    email: string;
-    role: Role;
+export interface User {
+    id: number
+    email: string
+    firstName?: string
+    lastName?: string
+    role: Role
+    active?: boolean
 }
-export type Role = 'ROLE_ADMIN' | 'ROLE_USER';
