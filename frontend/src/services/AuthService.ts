@@ -1,6 +1,14 @@
+import { jwtDecode } from 'jwt-decode';
+
 export interface AuthService {
     accessToken: string;
     refreshToken: string;
+}
+
+export interface DecodeToken {
+    role: "ROLE_ADMIN" | "ROLE_USER";
+    sub: string;
+    exp: number;
 }
 
 const API_URL = "http://localhost:8085/api/v1/auth";
@@ -21,7 +29,15 @@ export const loginService = async (credentials:  any ): Promise<AuthResponse> =>
         },
         body: JSON.stringify(credentials)
     });
-    return handleResponse(response);
+    const data: AuthResponse = await handleResponse(response);
+    // On décode le token pour chopper le ROLE
+    if (data.accessToken) {
+        const decoded: DecodedToken = jwtDecode(data.accessToken);
+        localStorage.setItem("ACCESS_TOKEN", data.accessToken);
+        localStorage.setItem("USER_ROLE", decoded.role);
+    }
+
+    return data;
 };
 
 export const registerService = async (userData: any): Promise<AuthResponse> => {
