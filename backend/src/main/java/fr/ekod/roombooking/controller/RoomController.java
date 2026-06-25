@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,25 +58,4 @@ public class RoomController {
         return reservationService.findByRoomId(id);
     }
 
-    @PostMapping
-    public ResponseEntity<RoomDTO> createRoom(@Valid @RequestBody CreateRoomRequest request) {
-        RoomDTO created = roomService.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
-
-    @PutMapping("/{id}")
-    public RoomDTO updateRoom(@PathVariable Long id, @Valid @RequestBody UpdateRoomRequest request) {
-        return roomService.update(id, request);
-    }
-
-    @PatchMapping("/{id}")
-    public RoomDTO patchRoomName(@PathVariable Long id, @Valid @RequestBody PatchRoomNameRequest request) {
-        return roomService.patchName(id, request);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
-        roomService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 }

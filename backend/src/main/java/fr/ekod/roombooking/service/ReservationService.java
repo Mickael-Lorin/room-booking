@@ -29,6 +29,9 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final RoomRepository roomRepository;
     private final ReservationMapper reservationMapper;
+    public List<ReservationDTO> findAll() {
+        return reservationMapper.toDtoList(reservationRepository.findAllWithDetails());
+    }
 
     public List<ReservationDTO> findByCurrentUser(User user) {
         requireAuthenticated(user);
@@ -40,6 +43,26 @@ public class ReservationService {
             throw new RoomNotFoundException(roomId);
         }
         return reservationMapper.toDtoList(reservationRepository.findByRoomIdWithDetails(roomId));
+    }
+
+    @Transactional
+    public ReservationDTO updateStatusAsAdmin(Long id, UpdateReservationStatusRequest request) {
+        Reservation reservation = findReservationOrThrow(id);
+
+        reservation.setStatus(request.status());
+        return reservationMapper.toDto(reservationRepository.save(reservation));
+    }
+
+    @Transactional
+    public ReservationDTO cancelAsAdmin(Long id) {
+        Reservation reservation = findReservationOrThrow(id);
+
+        if (reservation.getStatus() == Reservation.Status.CANCELLED) {
+            throw new ReservationConflictException("Cette réservation est déjà annulée");
+        }
+
+        reservation.setStatus(Reservation.Status.CANCELLED);
+        return reservationMapper.toDto(reservationRepository.save(reservation));
     }
 
     @Transactional

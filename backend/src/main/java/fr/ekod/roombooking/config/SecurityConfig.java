@@ -62,7 +62,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll() // Public
-                        .requestMatchers(HttpMethod.GET, "/api/rooms", "/api/rooms/**").permitAll() // Public GET
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/rooms/**").permitAll() // Public GET
                         .anyRequest().authenticated()                 // Tout le reste nécessite un token
                 );
 

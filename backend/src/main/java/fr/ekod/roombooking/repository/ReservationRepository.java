@@ -16,6 +16,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             SELECT r FROM Reservation r
             JOIN FETCH r.room
             JOIN FETCH r.user
+            ORDER BY r.startDateTime DESC
+            """)
+    List<Reservation> findAllWithDetails();
+
+    @Query("""
+            SELECT r FROM Reservation r
+            JOIN FETCH r.room
+            JOIN FETCH r.user
             WHERE r.user.id = :userId
             ORDER BY r.startDateTime DESC
             """)

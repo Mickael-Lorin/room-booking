@@ -18,6 +18,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -36,6 +37,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
+        System.out.println("DEBUG: Requête reçue - " + request.getMethod() + " " + request.getRequestURI());
+        System.out.println("DEBUG: Header Auth - " + request.getHeader("Authorization"));
         final String token = resolveToken(request);
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
