@@ -1,3 +1,5 @@
+
+
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { Login } from './pages/Login'
@@ -8,6 +10,9 @@ import { MyReservationsPage } from './pages/MyReservationsPage'
 import { RoomDetailPage } from './pages/RoomDetailPage'
 import { RoomListPage } from './pages/RoomListPage'
 import { HomePage } from './pages/HomePage'
+import { AdminUserDashboard } from './pages/AdminUserDashboard';
+import { AdminUserDetails } from './pages/AdminUserDetails';
+
 
 import './App.css'
 import './styles/Components.css'
@@ -25,6 +30,8 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/rooms/:id/book" element={<BookRoomPage />} />
             <Route path="/me/reservations" element={<MyReservationsPage />} />
+            <Route path="/admin/users" element={<AdminUserDashboard />} />
+            <Route path="/admin/users/:id" element={<AdminUserDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
