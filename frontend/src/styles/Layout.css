@@ -1,0 +1,108 @@
+/* ==========================================================================
+   HEADER & NAVIGATION
+   ========================================================================== */
+.app-header {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-header .infos-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background: var(--accent-hover);
+  width: 100%;
+}
+
+.app-header .infos-bar .links {
+  display: flex;
+  gap: 20px;
+}
+
+.app-header .infos-bar .links a,
+.app-header .infos-bar .links p {
+  color: var(--text-white);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .89px;
+  margin: 0;
+}
+
+.app-header .header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 30px 0;
+}
+
+.app-header .header-nav img {
+  height: 50px;
+}
+
+.app-header .header-nav .brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: none;
+  letter-spacing: -0.03em;
+}
+
+.app-header .header-nav nav {
+  display: flex;
+  gap: 10px;
+}
+
+.app-header .header-nav nav a,
+.app-header .header-nav nav button {
+  display: flex;
+  align-items: center;
+  color: var(--text-black);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+  border: 3px solid transparent;
+}
+
+.app-header .header-nav nav a:hover {
+  color: var(--accent);
+}
+
+.app-header .header-nav nav .auth,
+.app-header .header-nav nav .nav-logout {
+  margin-left: 20px;
+  background: var(--accent);
+  color: var(--text-white);
+  padding: 0.5rem 1.8rem;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+.app-header .header-nav nav .nav-logout {
+  cursor: pointer;
+}
+
+.app-header .header-nav nav .auth:hover,
+.app-header .header-nav nav .nav-logout:hover {
+  color: var(--accent);
+  background: var(--bg);
+  border: 3px solid var(--accent);
+}
+
+/* Responsive Header */
+@media (max-width: 960px) {
+  .app-header {
+    padding: 1rem 1.5rem;
+  }
+}

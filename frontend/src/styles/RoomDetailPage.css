@@ -1,0 +1,260 @@
+/* ==========================================================================
+   PAGE DE DÉTAIL D'UNE SALLE (ROOMDETAILPAGE)
+   ========================================================================== */
+
+.room-detail-container { 
+  padding: 50px; 
+}
+
+.room-detail--new-layout { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 3rem; 
+  align-items: start; 
+}
+
+/* --- Image / Carte --- */
+.room-detail__image-wrapper { 
+  width: 100%; 
+  aspect-ratio: 4 / 3; 
+  border-radius: 16px; /* Harmonisé avec l'accueil */
+  overflow: hidden; 
+  border: 1px solid var(--border); 
+  background: var(--bg);
+  box-shadow: var(--shadow-sm); 
+  transition: all 0.3s ease; 
+}
+
+.room-detail__image-wrapper:hover { 
+  border-color: rgba(255, 51, 51, 0.2); 
+}
+
+.room-detail__image { 
+  width: 100%; 
+  height: 100%; 
+  object-fit: cover; 
+  transition: transform 0.5s ease; 
+}
+
+.room-detail__image-wrapper:hover .room-detail__image { 
+  transform: scale(1.05); 
+}
+
+/* --- Contenu Texte --- */
+.room-detail__content { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1.5rem; 
+}
+
+.room-detail__header-simple { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 1rem; 
+}
+
+/* Fil d'Ariane */
+.room-detail__breadcrumb { 
+  display: flex; 
+  align-items: center; 
+  padding: 20px 50px; 
+  border-bottom: 1px solid var(--border); 
+  background: var(--bg);
+}
+
+.room-detail__breadcrumb p { 
+  margin-left: 10px; 
+  color: var(--text); 
+  font-size: 14px; 
+}
+
+.room-detail__back-link, .room-detail__room-link { 
+  display: inline-flex; 
+  align-items: center; 
+  text-decoration: none; 
+  color: var(--text); 
+  font-size: 14px; 
+  transition: color 0.3s ease; 
+}
+
+.room-detail__back-link { margin-right: 10px; }
+.room-detail__room-link { margin-left: 10px; margin-right: 10px; }
+
+.room-detail__back-link:hover, .room-detail__room-link:hover { 
+  color: var(--accent); 
+}
+
+.room-detail__room-link-disabled { 
+  display: inline-flex; 
+  align-items: center; 
+  margin-left: 10px; 
+  text-decoration: none; 
+  color: var(--text); 
+  font-size: 14px; 
+}
+
+.room-detail__title { 
+  font-size: 2.5rem; 
+  margin: 0; 
+}
+
+.room-detail__description { 
+  font-size: 1.05rem; 
+  line-height: 1.6; 
+  color: var(--text); 
+}
+
+.room-detail__description--empty { 
+  font-style: italic; 
+  color: #94a3b8; 
+}
+
+/* Statut et Specs */
+.room-detail__status-block { 
+  display: flex; 
+  align-items: center; 
+  gap: 1.5rem; 
+  padding: 1rem 0; 
+  border-top: 1px solid var(--bg-subtle); 
+  border-bottom: 1px solid var(--bg-subtle); 
+}
+
+.room-detail__quick-spec { 
+  font-size: 0.95rem; 
+  font-weight: 500; 
+  color: var(--text-h); 
+}
+
+.room-detail__section-subtitle { 
+  font-size: 1.1rem; 
+  margin: 0; 
+  text-transform: uppercase; 
+  letter-spacing: 0.05em; 
+  color: var(--text); 
+}
+
+/* Équipement */
+.room-detail__equipment { 
+  font-size: 0.95rem; 
+  color: var(--text-h); 
+  background: var(--code-bg); 
+  padding: 1.5rem; 
+  border-radius: 12px; 
+  border: 1px solid var(--border);
+  margin: 0; 
+  line-height: 1.6;
+}
+
+/* --- Boutons et Actions --- */
+.room-detail__actions-simple { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 1.5rem; 
+  margin-top: 1.5rem; 
+  padding-top: 2rem; 
+  border-top: 1px solid var(--border); 
+}
+
+/* Bouton Primaire (Réserver) */
+.room-detail__actions-simple .btn-primary { 
+  flex: 1; 
+  font-size: 1rem; 
+  padding: 1rem 2rem; 
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.room-detail__actions-simple .btn-primary:hover {
+  background: var(--accent-hover);
+  box-shadow: var(--shadow);
+}
+
+.room-detail__actions-simple .btn-primary:disabled {
+  background: #cbd5e1;
+  color: #64748b;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Actions Admin (Modifier / Supprimer) */
+.room-detail__admin-actions { 
+  display: flex; 
+  align-items: center; 
+  gap: 1rem; 
+}
+
+.room-detail__admin-actions button {
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.room-detail__admin-actions .btn-secondary {
+  padding: 1rem;
+  font-size: 1rem;
+  background: var(--bg-subtle);
+  color: var(--text-h);
+}
+
+.room-detail__admin-actions .btn-secondary:hover {
+  background: var(--border);
+}
+
+.room-detail__admin-actions .btn-danger {
+  padding: 1rem;
+  font-size: 1rem;
+  background: rgba(255, 51, 51, 0.05);
+  color: var(--accent);
+  border-color: rgba(255, 51, 51, 0.3);
+}
+
+.room-detail__admin-actions .btn-danger:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px rgba(255, 51, 51, 0.2);
+}
+
+/* Bouton Édition Titre (Crayon) */
+.btn-rename {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  color: var(--text-h);
+  border-radius: 8px;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-rename:hover {
+  background: white;
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+/* --- Responsive --- */
+@media (max-width: 960px) {
+  .room-detail-container { padding: 2rem 1.5rem; }
+  .room-detail__breadcrumb { padding: 1.5rem; }
+  .room-detail--new-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .room-detail__title { font-size: 2rem; }
+  .room-detail__actions-simple { flex-direction: column; align-items: stretch; gap: 1.5rem; }
+  .room-detail__admin-actions { flex-direction: column; width: 100%; }
+  .room-detail__admin-actions button { width: 100%; }
+}

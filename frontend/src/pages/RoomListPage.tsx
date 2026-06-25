@@ -2,9 +2,10 @@ import { Layout } from '../components/Layout'
 import { RoomCard } from '../components/RoomCard'
 import { RoomFilters } from '../components/RoomFilters'
 import { RoomFormModal } from '../components/RoomFormModal'
-import { createRoom, deleteRoom, fetchRooms, patchRoomName, searchRooms, updateRoom } from '../api/rooms'
+import { createRoom, fetchRooms, searchRooms } from '../api/rooms'
 import type { Room, RoomSearchParams } from '../types/room'
 import { useCallback, useEffect, useState } from 'react'
+import '../styles/RoomListPage.css'
 
 const emptyFilters: RoomSearchParams = {}
 
@@ -44,24 +45,6 @@ export function RoomListPage() {
   useEffect(() => {
     void loadRooms()
   }, [loadRooms])
-
-  const handleDelete = async (room: Room) => {
-    const confirmed = window.confirm(`Supprimer la salle « ${room.name} » ?`)
-    if (!confirmed) {
-      return
-    }
-
-    try {
-      await deleteRoom(room.id)
-      setRooms((current) => current.filter((item) => item.id !== room.id))
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Impossible de supprimer la salle')
-    }
-  }
-
-  const replaceRoom = (updated: Room) => {
-    setRooms((current) => current.map((item) => (item.id === updated.id ? updated : item)))
-  }
 
   return (
     <Layout>
@@ -119,9 +102,6 @@ export function RoomListPage() {
                 <RoomCard
                   key={room.id}
                   room={room}
-                  onRename={(selectedRoom) => setModal({ type: 'rename', room: selectedRoom })}
-                  onEdit={(selectedRoom) => setModal({ type: 'edit', room: selectedRoom })}
-                  onDelete={(selectedRoom) => void handleDelete(selectedRoom)}
                 />
               ))}
             </div>
@@ -136,30 +116,6 @@ export function RoomListPage() {
           onSubmit={async (payload) => {
             const created = await createRoom(payload)
             setRooms((current) => [...current, created])
-          }}
-        />
-      )}
-
-      {modal?.type === 'edit' && (
-        <RoomFormModal
-          mode="edit"
-          room={modal.room}
-          onClose={() => setModal(null)}
-          onSubmit={async (payload) => {
-            const updated = await updateRoom(modal.room.id, payload)
-            replaceRoom(updated)
-          }}
-        />
-      )}
-
-      {modal?.type === 'rename' && (
-        <RoomFormModal
-          mode="rename"
-          room={modal.room}
-          onClose={() => setModal(null)}
-          onSubmit={async (name) => {
-            const updated = await patchRoomName(modal.room.id, { name })
-            replaceRoom(updated)
           }}
         />
       )}

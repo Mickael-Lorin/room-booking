@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import type { Reservation, ReservationStatus } from '../types/reservation'
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import '../styles/MyReservationsPage.css'
 
 const STATUS_LABELS: Record<ReservationStatus, string> = {
   PENDING: 'En attente',

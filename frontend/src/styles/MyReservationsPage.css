@@ -1,0 +1,85 @@
+/* ==========================================================================
+   PAGE DE MES RÉSERVATIONS (MYRESERVATIONSPAGE)
+   ========================================================================== */
+
+.reservations-page { 
+  padding: 50px; 
+}
+
+.reservations-page__header { 
+  margin-bottom: 2rem; 
+}
+
+.reservations-page__empty { 
+  text-align: center; 
+  padding: 3rem 1rem; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1rem; 
+  align-items: center; 
+}
+
+.reservations-table-wrapper { 
+  background: var(--bg); 
+  border: 1px solid var(--border); 
+  border-radius: 14px; 
+  box-shadow: var(--shadow-sm); 
+  overflow-x: auto;
+}
+
+.reservations-table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+.reservations-table th, .reservations-table td { 
+  padding: 1rem; 
+  text-align: left; 
+  border-bottom: 1px solid var(--border); 
+  vertical-align: middle; 
+}
+
+.reservations-table th { 
+  font-size: 0.85rem; 
+  text-transform: uppercase; 
+  letter-spacing: 0.03em; 
+  color: var(--text); 
+  background: var(--bg-subtle); 
+}
+
+.reservations-table a { 
+  color: var(--accent); 
+  font-weight: 600; 
+  text-decoration: none; 
+}
+
+.reservations-table__muted { 
+  color: #94a3b8; 
+}
+
+/* Statuts de réservation */
+.reservation-status { 
+  display: inline-block; 
+  padding: 0.25rem 0.65rem; 
+  border-radius: 999px; 
+  font-size: 0.75rem; 
+  font-weight: 600; 
+}
+.reservation-status--pending { 
+  background: #fef3c7; 
+  color: #b45309; 
+}
+.reservation-status--confirmed { 
+  background: var(--success-bg); 
+  color: var(--success); 
+}
+.reservation-status--cancelled { 
+  background: var(--error-bg); 
+  color: var(--error); 
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .reservations-page { padding: 1.5rem; }
+  .reservations-table th, .reservations-table td { padding: 0.75rem; font-size: 0.85rem; }
+}
