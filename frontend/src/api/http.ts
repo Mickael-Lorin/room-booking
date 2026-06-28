@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'; // 🟢 Petite upgrade au passage pour injecter l'URL Render automatiquement !
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 export const ACCESS_TOKEN_KEY = 'accessToken'
 export const USER_ROLE_KEY = 'USER_ROLE'
 
