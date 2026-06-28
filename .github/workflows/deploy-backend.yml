@@ -62,7 +62,7 @@ jobs:
           # Utilisateur connecté (celui qui déclenche l'action)
           username: ${{ github.actor }}
           # Token GitHub automatiquement fourni
-          run: echo "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          run: echo "${{ secrets.GHRC_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       # Construction de l'image Docker
       - name: Build Docker image
