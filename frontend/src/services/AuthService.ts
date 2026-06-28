@@ -13,13 +13,29 @@ import type {
     RegisterPayload,
 } from '../types/auth'
 import type { Role } from '../types/user'
-
-function saveAuthSession(accessToken: string): void {
-    const decoded = jwtDecode<DecodedToken>(accessToken)
-
-    setAccessToken(accessToken)
+function saveAuthSession(authResponse: any): void {
+    const token = authResponse?.accessToken || authResponse?.token;
+    if (!token) {
+        throw new Error("Aucun jeton de sécurité (accessToken ou token) n'a été trouvé dans la réponse du serveur.");
+    }
+    const decoded = jwtDecode<DecodedToken>(token)
+    setAccessToken(token)
     localStorage.setItem(USER_ROLE_KEY, decoded.role)
 }
+
+function getCurrentUserRole(): Role | null {
+    return localStorage.getItem(USER_ROLE_KEY) as Role | null
+}
+
+export const authService = {
+    async login(credentials: LoginCredentials): Promise<AuthResponse> {
+        const authResponse = await authApi.login(credentials)
+
+        // 🟢 On passe l'objet entier pour que la fonction extrait le bon champ
+        saveAuthSession(authResponse)
+
+        return authResponse
+    },
 
 function getCurrentUserRole(): Role | null {
     return localStorage.getItem(USER_ROLE_KEY) as Role | null
