@@ -1,17 +1,24 @@
 export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED'
 
 export interface Reservation {
-  id: number
-  startDateTime: string
-  endDateTime: string
-  status: ReservationStatus
-  purpose: string | null
-  attendeesCount: number
-  roomId: number
-  roomName: string
-  userId: number
-  userEmail: string
-  createdAt: string
+  id: number;
+  startDate?: string;
+  endDate?: string;
+  startDateTime: string;
+  endDateTime: string;
+  status: string;
+  room: {
+    id: number;
+    name: string;
+    [key: string]: any;
+  };
+  user: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    [key: string]: any;
+  };
 }
 
 export interface CreateReservationPayload {
