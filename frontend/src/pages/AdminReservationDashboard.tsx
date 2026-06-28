@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { adminReservationService } from '../services/AdminReservationService'
-import type { Reservation } from '../types/reservation'
 
 export interface Reservation {
     id: number;
