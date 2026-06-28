@@ -55,15 +55,21 @@ export async function handleResponse<T>(response: Response): Promise<T> {
     if (response.status === 401 || response.status === 403) {
       clearAuthStorage()
     }
-
     throw new ApiError(await getErrorMessage(response), response.status)
   }
+
 
   if (response.status === 204) {
     return undefined as T
   }
 
-  return response.json()
+  const text = await response.text();
+
+  if (!text || text.trim() === '') {
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
 }
 
 type ApiRequestOptions = Omit<RequestInit, 'body'> & {
