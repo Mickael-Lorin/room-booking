@@ -2,7 +2,9 @@ FROM maven:3.9.15-eclipse-temurin-25
 
 WORKDIR /app
 
-COPY backend .
+COPY . .
+
+WORKDIR /app/backend
 
 RUN chmod +x mvnw
 
