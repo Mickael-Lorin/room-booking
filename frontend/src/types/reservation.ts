@@ -1,4 +1,4 @@
-export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED'
+export type ReservationStatus = 'PENDING' | 'CONFIRMED' | 'CANCELLED' | string;
 
 export interface Reservation {
   id: number;
@@ -6,7 +6,14 @@ export interface Reservation {
   endDate?: string;
   startDateTime: string;
   endDateTime: string;
-  status: string;
+  status: ReservationStatus; // Utilise le type pour l'indexation
+
+  // 🟢 Propriétés requises par BookRoomPage et MyReservationsPage
+  purpose?: string;
+  roomName?: string;
+  roomId?: number;
+  attendeesCount?: number;
+
   room: {
     id: number;
     name: string;
@@ -19,6 +26,9 @@ export interface Reservation {
     email: string;
     [key: string]: any;
   };
+
+  // 🟢 Index signature pour accepter d'autres champs dynamiques sans bloquer
+  [key: string]: any;
 }
 
 export interface CreateReservationPayload {
