@@ -15,10 +15,15 @@ import type {
 import type { Role } from '../types/user'
 
 function saveAuthSession(authResponse: any): void {
-    // On extrait le token sous ses deux formes possibles
-    const token = authResponse?.accessToken || authResponse?.token;
+    // On essaie de l'attraper sous toutes ses formes possibles
+    const token = authResponse?.accessToken ||
+        authResponse?.token ||
+        authResponse?.['accessToken()'] || // Format méthode record brut
+        (typeof authResponse === 'string' ? authResponse : null); // Si le serveur a renvoyé une chaîne brute
 
     if (!token) {
+        // Ajoutons un console.log temporaire pour voir la tête de l'intrus en direct !
+        console.log("Voici ce que le serveur a VRAIMENT envoyé :", authResponse);
         throw new Error("Aucun jeton de sécurité (accessToken ou token) n'a été trouvé dans la réponse du serveur.");
     }
 
