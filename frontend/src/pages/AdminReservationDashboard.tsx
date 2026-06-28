@@ -3,8 +3,11 @@ import { adminReservationService } from '../services/AdminReservationService'
 
 export interface Reservation {
     id: number;
-    startDate: string;
-    endDate: string;
+    startDate?: string;
+    endDate?: string;
+    startDateTime: string;
+    endDateTime: string;
+    status: string;
     room: {
         id: number;
         name: string;
