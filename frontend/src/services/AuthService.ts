@@ -13,14 +13,21 @@ import type {
     RegisterPayload,
 } from '../types/auth'
 import type { Role } from '../types/user'
+
 function saveAuthSession(authResponse: any): void {
+    // On extrait le token sous ses deux formes possibles
     const token = authResponse?.accessToken || authResponse?.token;
+
     if (!token) {
         throw new Error("Aucun jeton de sécurité (accessToken ou token) n'a été trouvé dans la réponse du serveur.");
     }
+
     const decoded = jwtDecode<DecodedToken>(token)
     setAccessToken(token)
-    localStorage.setItem(USER_ROLE_KEY, decoded.role)
+
+    // Si ton token JWT utilise 'roles' ou 'role', on s'adapte
+    const userRole = decoded.role || (decoded as any).roles || '';
+    localStorage.setItem(USER_ROLE_KEY, userRole)
 }
 
 function getCurrentUserRole(): Role | null {
@@ -30,23 +37,8 @@ function getCurrentUserRole(): Role | null {
 export const authService = {
     async login(credentials: LoginCredentials): Promise<AuthResponse> {
         const authResponse = await authApi.login(credentials)
-
-        // 🟢 On passe l'objet entier pour que la fonction extrait le bon champ
+        // On passe l'objet entier nettoyé
         saveAuthSession(authResponse)
-
-        return authResponse
-    },
-
-function getCurrentUserRole(): Role | null {
-    return localStorage.getItem(USER_ROLE_KEY) as Role | null
-}
-
-export const authService = {
-    async login(credentials: LoginCredentials): Promise<AuthResponse> {
-        const authResponse = await authApi.login(credentials)
-
-        saveAuthSession(authResponse.accessToken)
-
         return authResponse
     },
 
@@ -63,7 +55,8 @@ export const authService = {
     },
 
     isAdmin(): boolean {
-        return getCurrentUserRole() === 'ROLE_ADMIN'
+        const role = getCurrentUserRole()
+        return role === 'ROLE_ADMIN' || role === 'ADMIN'
     },
 
     getRole(): Role | null {
