@@ -1,4 +1,4 @@
-export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+export const API_BASE_URL = import.meta.env.FRONT_SECRET || '';
 export const ACCESS_TOKEN_KEY = 'accessToken'
 export const USER_ROLE_KEY = 'USER_ROLE'
 
