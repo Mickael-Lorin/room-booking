@@ -75,13 +75,19 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5175"));
+        // 🟢 Ajout des adresses de dev ET de la future adresse de prod sur Render
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:5173",
+                "http://localhost:5175",
+                "https://room-booking-backend-latest.onrender.com"
+        ));
+
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
+        // 🟢 Application globale à toutes les routes
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
