@@ -1,0 +1,42 @@
+name: Build and Deploy Frontend # Nom affiché dans GitHub Actions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**' # Déclenche le build UNIQUEMENT si des fichiers du dossier frontend changent
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupération du code source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Installation de Node.js (Version stable actuelle)
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      # 3. Installation des dépendances du projet
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      # 4. Vérification de la compilation TypeScript & Build de production
+      # On passe la variable d'environnement pour qu'elle s'intègre au build
+      - name: Build Frontend Application
+        working-directory: frontend
+        env:
+          VITE_API_URL: https://room-booking-backend-latest.onrender.com
+        run: npm run build
+
+      # 5. Déclenchement du déploiement sur Render (Static Site)
+      - name: Trigger Render Deploy Hook
+        run: curl -X POST "${{ secrets.FRONT_SECRET }}"
