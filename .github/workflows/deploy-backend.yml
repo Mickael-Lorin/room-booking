@@ -5,8 +5,7 @@ on: # Déclenchement automatique du workflow
     branches:
       - main
 
-env: #Variables globales utilisables dans tout le workflow
-  # Tag de l'image Docker'
+env:
   IMAGE_TAG: latest
 
 jobs:
@@ -26,6 +25,7 @@ jobs:
       # Récupération du code source
       - name: Checkout repository
         uses: actions/checkout@v4
+
       # Force le nom du repo en lowercase
       - name: Set Image Name to Lowercase
         run: |
@@ -54,15 +54,13 @@ jobs:
         # Génère le JAR exécutable sans relancer les tests
         run: mvn package -DskipTests
 
-      # Authentification à GHCR
+      # Authentification à GHCR (Syntaxe officielle et corrigée)
       - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
         with:
-          # Registre Docker GitHub
           registry: ghcr.io
-          # Utilisateur connecté (celui qui déclenche l'action)
           username: ${{ github.actor }}
-          # Token GitHub automatiquement fourni
-          run: echo "${{ secrets.GHRC_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # Construction de l'image Docker
       - name: Build Docker image
