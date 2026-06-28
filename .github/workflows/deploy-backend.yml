@@ -63,7 +63,7 @@ jobs:
           # Utilisateur connecté (celui qui déclenche l'action)
           username: ${{ github.actor }}
           # Token GitHub automatiquement fourni
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.RENDER_DEPLOY_HOOK_TOKEN }}
 
       # Construction de l'image Docker
       - name: Build Docker image
