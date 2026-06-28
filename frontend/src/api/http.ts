@@ -1,14 +1,15 @@
-export const API_BASE_URL = '/api'
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'; // 🟢 Petite upgrade au passage pour injecter l'URL Render automatiquement !
 export const ACCESS_TOKEN_KEY = 'accessToken'
 export const USER_ROLE_KEY = 'USER_ROLE'
 
 export class ApiError extends Error {
-  constructor(
-      message: string,
-      public readonly status: number
-  ) {
-    super(message)
-    this.name = 'ApiError'
+
+  public readonly status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
   }
 }
 

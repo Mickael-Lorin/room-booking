@@ -79,7 +79,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:5173",
                 "http://localhost:5175",
-                "https://room-booking-backend-latest.onrender.com"
+                "https://room-booking-frontend.onrender.com"
         ));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
