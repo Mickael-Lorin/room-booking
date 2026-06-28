@@ -2,6 +2,21 @@ import { useEffect, useState } from 'react'
 import { adminReservationService } from '../services/AdminReservationService'
 import type { Reservation } from '../types/reservation'
 
+export interface Reservation {
+    id: number;
+    startDate: string;
+    endDate: string;
+    room: {
+        id: number;
+        name: string;
+    };
+    user: {
+        id: number;
+        firstName: string;
+        lastName: string;
+        email: string;
+    };
+}
 export function AdminReservationDashboard() {
     const [reservations, setReservations] = useState<Reservation[]>([])
     const [error, setError] = useState<string | null>(null)
