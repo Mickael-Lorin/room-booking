@@ -22,7 +22,6 @@ public class AdminUserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        System.out.println("DEBUG: Méthode getAllUsers appelée !");
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
@@ -32,26 +31,31 @@ public class AdminUserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest request ) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest request) {
         return ResponseEntity.ok(userService.updateUser(id, request));
     }
 
     @PatchMapping("/{id}/role")
-    public ResponseEntity<Void> updateRole(@PathVariable Long id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<Map<String, String>> updateRole(@PathVariable Long id, @RequestBody Map<String, String> body) {
         String roleString = body.get("role");
-        String cleanRole = roleString.replace("ROLE_", "");
+        // Correction : évite le NPE si la clé "role" est absente du corps de la requête.
+        if (roleString == null || roleString.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("message", "Le champ 'role' est requis"));
+        }
 
+        String cleanRole = roleString.replace("ROLE_", "");
         try {
-            Role role = Role.valueOf(cleanRole.toUpperCase()); 
+            Role role = Role.valueOf(cleanRole.toUpperCase());
             userService.updateRole(id, role);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("message", "Rôle invalide : " + roleString));
         }
     }
+
     @PatchMapping("/{id}/active")
-    public ResponseEntity<Void> updateUserStatus(@PathVariable Long id, @RequestParam boolean active){
-        userService.updateStatus(id,active);
+    public ResponseEntity<Void> updateUserStatus(@PathVariable Long id, @RequestParam boolean active) {
+        userService.updateStatus(id, active);
         return ResponseEntity.noContent().build();
     }
 
