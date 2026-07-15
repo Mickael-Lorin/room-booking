@@ -5,14 +5,14 @@ const AUTH_ENDPOINT = '/v1/auth'
 
 export const authApi = {
     async login(credentials: LoginCredentials) {
-        return apiRequest<AuthResponse>('/api/v1/auth/login', {
+        return apiRequest<AuthResponse>(`${AUTH_ENDPOINT}/login`, {
             method: 'POST',
             body: credentials,
         });
     },
 
     async register(payload: RegisterPayload) {
-        return apiRequest<AuthResponse>('/api/v1/auth/register', {
+        return apiRequest<AuthResponse>(`${AUTH_ENDPOINT}/register`, {
             method: 'POST',
             body: payload,
         });
