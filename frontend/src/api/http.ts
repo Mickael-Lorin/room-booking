@@ -1,14 +1,15 @@
-export const API_BASE_URL = '/api'
+export const API_BASE_URL = import.meta.env.VITE_URL_API || '';
 export const ACCESS_TOKEN_KEY = 'accessToken'
 export const USER_ROLE_KEY = 'USER_ROLE'
 
 export class ApiError extends Error {
-  constructor(
-      message: string,
-      public readonly status: number
-  ) {
-    super(message)
-    this.name = 'ApiError'
+
+  public readonly status: number;
+
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = 'ApiError';
+    this.status = status;
   }
 }
 
@@ -54,15 +55,21 @@ export async function handleResponse<T>(response: Response): Promise<T> {
     if (response.status === 401 || response.status === 403) {
       clearAuthStorage()
     }
-
     throw new ApiError(await getErrorMessage(response), response.status)
   }
+
 
   if (response.status === 204) {
     return undefined as T
   }
 
-  return response.json()
+  const text = await response.text();
+
+  if (!text || text.trim() === '') {
+    return undefined as T;
+  }
+
+  return JSON.parse(text) as T;
 }
 
 type ApiRequestOptions = Omit<RequestInit, 'body'> & {

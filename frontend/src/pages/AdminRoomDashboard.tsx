@@ -61,7 +61,7 @@ export function AdminRoomDashboard() {
                                     type="button"
                                     onClick={() => deleteRoom(room.id)}
                                 >
-                                    Supprimer
+                                    Supprimer !!!
                                 </button>
                             </td>
                         </tr>

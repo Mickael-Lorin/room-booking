@@ -5,11 +5,7 @@ on: # Déclenchement automatique du workflow
     branches:
       - main
 
-
-env: #Variables globales utilisables dans tout le workflow
-  # Nom de l'image Docker qui sera stockée dans Github Container Registry
-  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/room-booking-backend
-  # Tag de l'image Docker'
+env:
   IMAGE_TAG: latest
 
 jobs:
@@ -18,20 +14,22 @@ jobs:
     #Machine virtuelle utilisée pour éxécuter les étapes
     runs-on: ubuntu-latest
 
-    # Permissions  accordées au workflow
+    # Permissions accordées au workflow
     permissions:
-      # autotrise la lecture du dépot
+      # autorise la lecture du dépot
       contents: read
-      # autorise l"envoi d'images Docker vers GHRC
+      # autorise l'envoi d'images Docker vers GHCR
       packages: write
 
-
-   # Récupération du code sourc
     steps:
+      # Récupération du code source
       - name: Checkout repository
         uses: actions/checkout@v4
 
-
+      # Force le nom du repo en lowercase
+      - name: Set Image Name to Lowercase
+        run: |
+          echo "IMAGE_NAME=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/room-booking-backend" >> ${GITHUB_ENV}
 
       # Installation de Java
       - name: Set up Java 25
@@ -49,36 +47,35 @@ jobs:
         working-directory: backend
         # Lance tous les tests unitaires et d'intégration
         run: mvn test
+
       # Création du package Spring Boot
       - name: Package application
         working-directory: backend
         # Génère le JAR exécutable sans relancer les tests
-        # (ils ont déjà été exécutés à l'étape précédente)
         run: mvn package -DskipTests
 
-      # Authentification à GHCR
+      # Authentification à GHCR (Syntaxe officielle et corrigée)
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
-          # Registre Docker GitHub
           registry: ghcr.io
-          # Utilisateur connecté (celui qui déclenche l'action)
           username: ${{ github.actor }}
-          # Token GitHub automatiquement fourni
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHRC_TOKEN }}
 
-        # Construction de l'image Docker
+      # Construction de l'image Docker
       - name: Build Docker image
         run: |
           docker build \
             -t $IMAGE_NAME:$IMAGE_TAG \
             -t $IMAGE_NAME:${{ github.sha }} \
             ./backend
-        # Publication de l'image Docker
+
+      # Publication de l'image Docker
       - name: Push Docker image to GHCR
         run: |
           docker push $IMAGE_NAME:$IMAGE_TAG
           docker push $IMAGE_NAME:${{ github.sha }}
+
       # Déploiement sur Render
       - name: Trigger Render deploy hook
         run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"

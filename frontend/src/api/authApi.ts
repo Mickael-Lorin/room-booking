@@ -4,17 +4,18 @@ import type { AuthResponse, LoginCredentials, RegisterPayload } from '../types/a
 const AUTH_ENDPOINT = '/v1/auth'
 
 export const authApi = {
-    login(credentials: LoginCredentials): Promise<AuthResponse> {
-        return apiRequest<AuthResponse>(`${AUTH_ENDPOINT}/login`, {
+    async login(credentials: LoginCredentials) {
+        return apiRequest<AuthResponse>('/api/v1/auth/login', {
             method: 'POST',
             body: credentials,
-        })
+        });
     },
 
-    register(payload: RegisterPayload): Promise<AuthResponse> {
-        return apiRequest<AuthResponse>(`${AUTH_ENDPOINT}/register`, {
+    async register(payload: RegisterPayload) {
+        return apiRequest<AuthResponse>('/api/v1/auth/register', {
             method: 'POST',
             body: payload,
-        })
-    },
+        });
+    }
+
 }

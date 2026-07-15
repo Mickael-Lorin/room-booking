@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { adminReservationService } from '../services/AdminReservationService'
-import type { Reservation } from '../types/reservation'
+import type { Reservation } from '../types/reservation';
+
 
 export function AdminReservationDashboard() {
     const [reservations, setReservations] = useState<Reservation[]>([])
