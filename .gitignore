@@ -14,6 +14,7 @@ target/
 .sts4-cache
 ### env ###
 .env
+/backend/src/main/java/fr/ekod/roombooking/.DS_Store
 
 ### IntelliJ IDEA ###
 ../.idea
@@ -33,3 +34,4 @@ build/
 
 ### VS Code ###
 .vscode/
+.DS_Store
