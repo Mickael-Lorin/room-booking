@@ -14,11 +14,25 @@ import type {
 } from '../types/auth'
 import type { Role } from '../types/user'
 
-function saveAuthSession(accessToken: string): void {
-    const decoded = jwtDecode<DecodedToken>(accessToken)
+function saveAuthSession(authResponse: any): void {
+    // On essaie de l'attraper sous toutes ses formes possibles
+    const token = authResponse?.accessToken ||
+        authResponse?.token ||
+        authResponse?.['accessToken()'] || // Format méthode record brut
+        (typeof authResponse === 'string' ? authResponse : null); // Si le serveur a renvoyé une chaîne brute
 
-    setAccessToken(accessToken)
-    localStorage.setItem(USER_ROLE_KEY, decoded.role)
+    if (!token) {
+        // Ajoutons un console.log temporaire pour voir la tête de l'intrus en direct !
+        console.log("Voici ce que le serveur a VRAIMENT envoyé :", authResponse);
+        throw new Error("Aucun jeton de sécurité (accessToken ou token) n'a été trouvé dans la réponse du serveur.");
+    }
+
+    const decoded = jwtDecode<DecodedToken>(token)
+    setAccessToken(token)
+
+    // Si ton token JWT utilise 'roles' ou 'role', on s'adapte
+    const userRole = decoded.role || (decoded as any).roles || '';
+    localStorage.setItem(USER_ROLE_KEY, userRole)
 }
 
 function getCurrentUserRole(): Role | null {
@@ -28,9 +42,8 @@ function getCurrentUserRole(): Role | null {
 export const authService = {
     async login(credentials: LoginCredentials): Promise<AuthResponse> {
         const authResponse = await authApi.login(credentials)
-
-        saveAuthSession(authResponse.accessToken)
-
+        // On passe l'objet entier nettoyé
+        saveAuthSession(authResponse)
         return authResponse
     },
 
@@ -47,7 +60,8 @@ export const authService = {
     },
 
     isAdmin(): boolean {
-        return getCurrentUserRole() === 'ROLE_ADMIN'
+        const role = getCurrentUserRole()
+        return role === 'ROLE_ADMIN' || role === 'ADMIN'
     },
 
     getRole(): Role | null {

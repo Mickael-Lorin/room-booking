@@ -4,8 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-WORKDIR /app/backend
-
 RUN chmod +x mvnw
 
 EXPOSE 8080

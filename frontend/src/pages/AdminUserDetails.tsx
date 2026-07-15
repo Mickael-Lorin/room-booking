@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import {adminService, type Role} from '../services/AdminService';
 
 export interface User {
