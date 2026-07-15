@@ -1,6 +1,5 @@
 package fr.ekod.roombooking.security;
 
-import fr.ekod.roombooking.entity.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -37,8 +36,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        System.out.println("DEBUG: Requête reçue - " + request.getMethod() + " " + request.getRequestURI());
-        System.out.println("DEBUG: Header Auth - " + request.getHeader("Authorization"));
         final String token = resolveToken(request);
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -55,9 +52,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                } else if (!"access".equals(type)) {
+                    // Utile pour diagnostiquer côté serveur si le frontend envoie
+                    // un refresh token à la place d'un access token.
+                    log.debug("Jeton de type '{}' rejeté sur {} (un access token était attendu)", type, request.getRequestURI());
                 }
             } catch (Exception e) {
-                log.debug("JWT invalide ou expiré : {}", e.getMessage());
+                log.debug("JWT invalide ou expiré sur {} : {}", request.getRequestURI(), e.getMessage());
                 SecurityContextHolder.clearContext();
             }
         }
