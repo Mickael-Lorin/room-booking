@@ -1,0 +1,39 @@
+meta {
+  name: Create reservation attendeesCount=0 -> 400
+  type: http
+  seq: 12
+}
+
+post {
+  url: {{baseUrl}}/api/reservations
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "roomId": {{testRoomId}},
+    "startDateTime": "{{reservationStart}}",
+    "endDateTime": "{{reservationEnd}}",
+    "attendeesCount": 0,
+    "purpose": "Nombre de participants invalide"
+  }
+}
+
+tests {
+  test("retourne 400 BAD REQUEST", function () {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("message signale le champ attendeesCount", function () {
+    expect(res.body.message).to.contain("attendeesCount");
+  });
+}

@@ -1,0 +1,51 @@
+meta {
+  name: Create room as ADMIN -> 201
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/api/admin/rooms
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "{{testRoomName}}",
+    "capacity": 10,
+    "location": "Bâtiment Bruno - Salle de test",
+    "available": true
+  }
+}
+
+script:pre-request {
+  // Nom jetable et identifiable, pour nettoyage sans collision entre exécutions.
+  bru.setVar("testRoomName", `BRUNO_TEST_ROOM_${Date.now()}`);
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setVar("testRoomId", res.body.id);
+  }
+}
+
+tests {
+  test("retourne 201 CREATED", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("la salle créée porte le nom attendu et un id", function () {
+    expect(res.body.id).to.be.a("number");
+    expect(res.body.name).to.equal(bru.getVar("testRoomName"));
+    expect(res.body.capacity).to.equal(10);
+  });
+}

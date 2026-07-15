@@ -71,3 +71,11 @@ export default defineConfig([
   },
 ])
 ```
+mvn test
+Tesqt unitaire
+mvn -Dtest=ReservationServiceTest test
+Test d'intégration
+JAVA_HOME=/Library/Java/JavaVirtualMachines/temurin-25.jdk/Contents/Home mvn clean -Dtest=SecurityIntegrationTest test
+
+Test systeme dans /bruno
+npx @usebruno/cli run . --env Local

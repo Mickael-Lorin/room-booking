@@ -1,0 +1,33 @@
+meta {
+  name: Create room as USER -> 403
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/api/admin/rooms
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "BRUNO_TEST_FORBIDDEN",
+    "capacity": 5,
+    "location": "Bâtiment Bruno"
+  }
+}
+
+tests {
+  test("retourne 403 FORBIDDEN", function () {
+    expect(res.getStatus()).to.equal(403);
+  });
+}

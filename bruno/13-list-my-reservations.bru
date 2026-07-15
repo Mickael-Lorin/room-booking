@@ -1,0 +1,27 @@
+meta {
+  name: List my reservations -> 200
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{baseUrl}}/api/reservations/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("retourne 200 OK", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("contient la réservation créée pendant le scénario", function () {
+    expect(res.body).to.be.an("array");
+    const ids = res.body.map((r) => r.id);
+    expect(ids).to.include(bru.getVar("testReservationId"));
+  });
+}

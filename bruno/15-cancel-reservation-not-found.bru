@@ -1,0 +1,25 @@
+meta {
+  name: Cancel non-existent reservation -> 404
+  type: http
+  seq: 15
+}
+
+delete {
+  url: {{baseUrl}}/api/reservations/999999999
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("retourne 404 NOT FOUND", function () {
+    expect(res.getStatus()).to.equal(404);
+  });
+
+  test("message mentionne l'identifiant introuvable", function () {
+    expect(res.body.message).to.contain("introuvable");
+  });
+}

@@ -1,0 +1,25 @@
+meta {
+  name: Cancel already-cancelled reservation -> 409
+  type: http
+  seq: 17
+}
+
+delete {
+  url: {{baseUrl}}/api/reservations/{{testReservationId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("retourne 409 CONFLICT", function () {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("message signale une annulation déjà effectuée", function () {
+    expect(res.body.message).to.contain("déjà annulée");
+  });
+}

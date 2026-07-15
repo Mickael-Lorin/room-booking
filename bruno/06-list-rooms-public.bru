@@ -1,0 +1,21 @@
+meta {
+  name: List rooms (public) -> 200
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/api/rooms
+  body: none
+  auth: none
+}
+
+tests {
+  test("retourne 200 OK sans authentification", function () {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("renvoie un tableau de salles", function () {
+    expect(res.body).to.be.an("array");
+  });
+}

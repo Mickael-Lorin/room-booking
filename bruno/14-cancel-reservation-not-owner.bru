@@ -1,0 +1,25 @@
+meta {
+  name: Cancel reservation as non-owner (admin) -> 401
+  type: http
+  seq: 14
+}
+
+delete {
+  url: {{baseUrl}}/api/reservations/{{testReservationId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("retourne 401 (propriétaire uniquement)", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+
+  test("message explique la restriction de propriété", function () {
+    expect(res.body.message).to.contain("propres réservations");
+  });
+}

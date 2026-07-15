@@ -1,0 +1,67 @@
+meta {
+  name: Create reservation as USER -> 201
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/api/reservations
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "roomId": {{testRoomId}},
+    "startDateTime": "{{reservationStart}}",
+    "endDateTime": "{{reservationEnd}}",
+    "attendeesCount": 5,
+    "purpose": "Réunion Bruno E2E"
+  }
+}
+
+script:pre-request {
+  // Créneau généré dynamiquement (demain, 10h-11h) : jamais dans le passé,
+  // donc la collection reste valide indéfiniment plutôt que de casser
+  // la semaine prochaine avec des dates codées en dur.
+  const start = new Date();
+  start.setDate(start.getDate() + 1);
+  start.setHours(10, 0, 0, 0);
+
+  const end = new Date(start);
+  end.setHours(11, 0, 0, 0);
+
+  const toLocalIso = (d) => {
+    const pad = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  };
+
+  bru.setVar("reservationStart", toLocalIso(start));
+  bru.setVar("reservationEnd", toLocalIso(end));
+}
+
+script:post-response {
+  if (res.getStatus() === 201) {
+    bru.setVar("testReservationId", res.body.id);
+  }
+}
+
+tests {
+  test("retourne 201 CREATED", function () {
+    expect(res.getStatus()).to.equal(201);
+  });
+
+  test("la réservation est PENDING et rattachée à la bonne salle", function () {
+    expect(res.body.id).to.be.a("number");
+    expect(res.body.status).to.equal("PENDING");
+    expect(res.body.roomId).to.equal(bru.getVar("testRoomId"));
+  });
+}

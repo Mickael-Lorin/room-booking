@@ -1,0 +1,21 @@
+meta {
+  name: Delete test room as ADMIN -> 204
+  type: http
+  seq: 18
+}
+
+delete {
+  url: {{baseUrl}}/api/admin/rooms/{{testRoomId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{adminToken}}
+}
+
+tests {
+  test("retourne 204 NO CONTENT (nettoyage des données jetables)", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}

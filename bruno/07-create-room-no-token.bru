@@ -1,0 +1,29 @@
+meta {
+  name: Create room without token -> 401
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/api/admin/rooms
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "name": "BRUNO_TEST_NO_AUTH",
+    "capacity": 5,
+    "location": "Bâtiment Bruno"
+  }
+}
+
+tests {
+  test("retourne 401 UNAUTHORIZED", function () {
+    expect(res.getStatus()).to.equal(401);
+  });
+}

@@ -1,0 +1,39 @@
+meta {
+  name: Create reservation same slot -> 409 conflict
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/api/reservations
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "roomId": {{testRoomId}},
+    "startDateTime": "{{reservationStart}}",
+    "endDateTime": "{{reservationEnd}}",
+    "attendeesCount": 3,
+    "purpose": "Tentative de double réservation"
+  }
+}
+
+tests {
+  test("retourne 409 CONFLICT", function () {
+    expect(res.getStatus()).to.equal(409);
+  });
+
+  test("message signale le créneau déjà réservé", function () {
+    expect(res.body.message).to.contain("réservée sur ce créneau");
+  });
+}

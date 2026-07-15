@@ -1,0 +1,21 @@
+meta {
+  name: Cancel reservation as owner -> 204
+  type: http
+  seq: 16
+}
+
+delete {
+  url: {{baseUrl}}/api/reservations/{{testReservationId}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{userToken}}
+}
+
+tests {
+  test("retourne 204 NO CONTENT", function () {
+    expect(res.getStatus()).to.equal(204);
+  });
+}
