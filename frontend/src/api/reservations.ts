@@ -1,7 +1,7 @@
-import { authHeaders, handleResponse } from './http'
+import { authHeaders, handleResponse, API_BASE_URL } from './http'
 import type { CreateReservationPayload, Reservation } from '../types/reservation'
 
-const API_BASE = '/api/reservations'
+const API_BASE = `${API_BASE_URL}/reservations`
 
 export async function fetchMyReservations(): Promise<Reservation[]> {
   const response = await fetch(`${API_BASE}/me`, {
@@ -28,6 +28,6 @@ export async function cancelReservation(id: number): Promise<void> {
 }
 
 export async function fetchRoomReservations(roomId: number): Promise<Reservation[]> {
-  const response = await fetch(`/api/rooms/${roomId}/reservations`)
+  const response = await fetch(`${API_BASE_URL}/rooms/${roomId}/reservations`)
   return handleResponse<Reservation[]>(response)
 }
