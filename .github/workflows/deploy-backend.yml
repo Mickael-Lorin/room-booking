@@ -21,6 +21,22 @@ jobs:
       # autorise l'envoi d'images Docker vers GHCR
       packages: write
 
+    # Base de données PostgreSQL pour les tests d'intégration
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: room_booking_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       # Récupération du code source
       - name: Checkout repository
@@ -46,6 +62,12 @@ jobs:
       - name: Run Maven tests
         working-directory: backend
         # Lance tous les tests unitaires et d'intégration
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: room_booking_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
         run: mvn test
 
       # Création du package Spring Boot
