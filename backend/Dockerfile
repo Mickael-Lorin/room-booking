@@ -13,7 +13,7 @@ COPY src ./src
 RUN mvn package -DskipTests -B
 
 # ── Stage 2 : Runtime ────────────────────────────────────────────────────────
-FROM eclipse-temurin:25-jdk
+FROM eclipse-temurin:25-jdk-noble
 
 WORKDIR /app
 
